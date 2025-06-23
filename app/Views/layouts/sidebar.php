@@ -46,10 +46,12 @@ $segment1 = $uri->getSegment(1); // bagian setelah domain
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <a href="<?= base_url('kasmasuk') ?>" class="nav-link  <?= $segment1 == 'kasmasuk' ? 'active' : '' ?>">
-                    <i class="nav-icon fas fa-arrow-down"></i>
-                    <p>Kas Masuk</p>
-                </a>
+                <li class="nav-item">
+                    <a href="<?= base_url('kasmasuk') ?>"
+                        class="nav-link  <?= $segment1 == 'kasmasuk' ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-arrow-down"></i>
+                        <p>Kas Masuk</p>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?= base_url('kaskeluar') ?>"
@@ -58,10 +60,12 @@ $segment1 = $uri->getSegment(1); // bagian setelah domain
                         <p>Kas Keluar</p>
                     </a>
                 </li>
-                <a href="<?= base_url('riwayat') ?>" class="nav-link  <?= $segment1 == 'riwayat' ? 'active' : '' ?>">
-                    <i class="nav-icon fas fa-history"></i>
-                    <p>Riwayat</p>
-                </a>
+                <li class="nav-item">
+                    <a href="<?= base_url('riwayat') ?>"
+                        class="nav-link  <?= $segment1 == 'riwayat' ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-history"></i>
+                        <p>Riwayat</p>
+                    </a>
                 </li>
             </ul>
         </nav>
