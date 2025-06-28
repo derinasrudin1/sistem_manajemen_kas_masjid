@@ -47,9 +47,9 @@ $role = session()->get('role');
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= base_url('admin/data-masjid') ?>" class="nav-link <?= strpos($currentPath, '/admin/data-masjid') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url('admin/masjid') ?>" class="nav-link <?= strpos($currentPath, '/admin/masjid') !== false ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-mosque"></i>
-                        <p>Data Masjid <?= strpos($currentPath, '/admin/data-masjid') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
+                        <p>Data Masjid <?= strpos($currentPath, '/admin/masjid') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
                     </a>
                 </li>
                 <li class="nav-item">

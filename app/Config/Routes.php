@@ -15,7 +15,7 @@ $routes->get('/auth/logout', [Auth::class, 'logout']);
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard', [AdminDashboard::class, 'index']);
     $routes->get('users', 'Admin\UserController::index');
-    
+
 
     // user manajement
     $routes->get('users/create', 'Admin\UserController::create');
@@ -23,7 +23,16 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('users/edit/(:num)', 'Admin\UserController::edit/$1');
     $routes->post('users/update/(:num)', 'Admin\UserController::update/$1');
     $routes->delete('users/delete/(:num)', 'Admin\UserController::delete/$1');
+
+    //masjid
+    $routes->get('masjid', 'Admin\MasjidController::index');
+    $routes->get('masjid/create', 'Admin\MasjidController::create');
+    $routes->post('masjid/store', 'Admin\MasjidController::store');
+    $routes->get('masjid/edit/(:num)', 'Admin\MasjidController::edit/$1');
+    $routes->post('masjid/update/(:num)', 'Admin\MasjidController::update/$1');
+    $routes->delete('masjid/delete/(:num)', 'Admin\MasjidController::delete/$1');
 });
+
 $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
     $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
 });
