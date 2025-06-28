@@ -64,21 +64,21 @@ $role = session()->get('role');
                 <?php if(in_array($role, ['admin', 'bendahara'])): ?>
                 <li class="nav-header">KEUANGAN</li>
                 <li class="nav-item">
-                    <a href="<?= base_url('bendahara/kas-masuk') ?>" class="nav-link <?= strpos($currentPath, '/bendahara/kas-masuk') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url('/kasmasuk') ?> " class="nav-link <?= strpos($currentPath, '/kasmasuk') !== false ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-donate"></i>
-                        <p>Kas Masuk <?= strpos($currentPath, '/bendahara/kas-masuk') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
+                        <p>Kas Masuk <?= strpos($currentPath, '/kasmasuk') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= base_url('bendahara/kas-keluar') ?>" class="nav-link <?= strpos($currentPath, '/bendahara/kas-keluar') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url('/kaskeluar') ?>" class="nav-link <?= strpos($currentPath, '/kaskeluar') !== false ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-receipt"></i>
-                        <p>Kas Keluar <?= strpos($currentPath, '/bendahara/kas-keluar') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
+                        <p>Kas Keluar <?= strpos($currentPath, '/kaskeluar') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= base_url('bendahara/laporan-keuangan') ?>" class="nav-link <?= strpos($currentPath, '/bendahara/laporan-keuangan') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url('/riwayat') ?>" class="nav-link <?= strpos($currentPath, '/riwayat') !== false ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
-                        <p>Laporan Keuangan <?= strpos($currentPath, '/bendahara/laporan-keuangan') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
+                        <p>Riwayat Keuangan <?= strpos($currentPath, '/riwayat') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
                     </a>
                 </li>
                 <?php endif; ?>

@@ -4,6 +4,7 @@ use CodeIgniter\Router\RouteCollection;
 
 use App\Controllers\Auth;
 use App\Controllers\Admin\AdminDashboard;
+use App\Controllers\Bendahara\BendaharaDashboard;
 
 // Authentication routes
 $routes->get('/auth', [Auth::class, 'index']);
@@ -14,6 +15,7 @@ $routes->get('/auth/logout', [Auth::class, 'logout']);
 $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard', [AdminDashboard::class, 'index']);
     $routes->get('users', 'Admin\UserController::index');
+    
 
     // user manajement
     $routes->get('users/create', 'Admin\UserController::create');
@@ -21,6 +23,9 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('users/edit/(:num)', 'Admin\UserController::edit/$1');
     $routes->post('users/update/(:num)', 'Admin\UserController::update/$1');
     $routes->delete('users/delete/(:num)', 'Admin\UserController::delete/$1');
+});
+$routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
+    $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
 });
 
 // === Kas Masuk ===
