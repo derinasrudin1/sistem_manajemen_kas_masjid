@@ -2,23 +2,33 @@
 
 use CodeIgniter\Router\RouteCollection;
 
-/**
- * @var RouteCollection $routes
- */
-// $routes->get('/', 'Home::index');
-// $routes->get('/kasmasuk', 'KasMasuk::index');
-// $routes->get('/kasmasuk/create', 'KasMasuk::create');
-// $routes->post('/kasmasuk/store', 'KasMasuk::store');
-// $routes->get('/kasmasuk/edit/(:num)', 'KasMasuk::edit/$1');
-// $routes->post('/kasmasuk/update/(:num)', 'KasMasuk::update/$1');
-// $routes->post('/kasmasuk/delete/(:num)', 'KasMasuk::delete/$1');
-// === Halaman Utama atau Dashboard (opsional) ===
-$routes->get('/', 'Auth::index');
-$routes->post('/checklogin', 'Auth::login');
-$routes->get('/logout', 'Auth::logout');
+use App\Controllers\Auth;
+use App\Controllers\Admin\AdminDashboard;
 
-//Admin Pages
-$routes->get('/admin/dashboard', 'Admin\AdminDashboard::index');
+// Authentication routes
+$routes->get('/auth', [Auth::class, 'index']);
+$routes->post('/auth/login', [Auth::class, 'login']);
+$routes->get('/auth/logout', [Auth::class, 'logout']);
+
+$routes->get('test', function() {
+    $filters = config('Filters');
+    
+    echo "<h2>Registered Filter Aliases:</h2>";
+    echo "<pre>";
+    print_r($filters->aliases);
+    echo "</pre>";
+    
+    echo "<h2>Auth Class Exists:</h2>";
+    echo class_exists('\App\Filters\Auth') ? "YES" : "NO";
+    
+    echo "<h2>Filter File Contents:</h2>";
+    highlight_file(APPPATH.'Filters/Auth.php');
+});
+
+// Protected admin route with auth filter
+$routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
+    $routes->get('dashboard', [AdminDashboard::class, 'index']);
+});
 
 // === Kas Masuk ===
 $routes->get('/kasmasuk', 'KasMasuk::index');

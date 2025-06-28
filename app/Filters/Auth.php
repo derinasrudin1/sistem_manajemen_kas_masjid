@@ -10,22 +10,19 @@ class Auth implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         if (!session()->get('logged_in')) {
-            return redirect()->to('/login');
+            return redirect()->to('/auth')->with('error', 'Please login first');
         }
 
-        // Role-based access check
-        $userRole = session()->get('role');
-        $currentRoute = $request->uri->getSegment(1);
-
-        if ($userRole === 'admin' && $currentRoute !== 'admin') {
-            return redirect()->to('/admin');
+        if ($arguments) {
+            $userRole = session()->get('role');
+            if (!in_array($userRole, $arguments)) {
+                return redirect()->back()->with('error', 'Unauthorized access');
+            }
         }
-
-        // Similar checks for other roles...
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
-        // Do something here
+        // Do nothing
     }
 }
