@@ -14,10 +14,11 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->post('/kasmasuk/delete/(:num)', 'KasMasuk::delete/$1');
 // === Halaman Utama atau Dashboard (opsional) ===
 $routes->get('/', 'Auth::index');
-$routes->post('/login', 'Auth::login');
+$routes->post('/checklogin', 'Auth::login');
 $routes->get('/logout', 'Auth::logout');
 
-$routes->get('/admin/dashboard', 'AdminDashboard::index');
+//Admin Pages
+$routes->get('/admin/dashboard', 'Admin\AdminDashboard::index');
 
 // === Kas Masuk ===
 $routes->get('/kasmasuk', 'KasMasuk::index');

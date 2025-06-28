@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\KasMasukModel;
 use App\Models\KasKeluarModel;
-use App\Models\UserModel;
+use App\Controllers\BaseController;
 
 class AdminDashboard extends BaseController
 {

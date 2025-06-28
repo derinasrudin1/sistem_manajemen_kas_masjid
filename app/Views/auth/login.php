@@ -21,7 +21,7 @@
                     <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
                 <?php endif; ?>
 
-                <form action="<?= base_url('/login') ?>" method="post">
+                <form action="<?= base_url('/checklogin') ?>" method="post">
                     <div class="input-group mb-3">
                         <input type="text" name="username" class="form-control" placeholder="Username" required>
                         <div class="input-group-append">
