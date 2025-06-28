@@ -13,7 +13,11 @@ use CodeIgniter\Router\RouteCollection;
 // $routes->post('/kasmasuk/update/(:num)', 'KasMasuk::update/$1');
 // $routes->post('/kasmasuk/delete/(:num)', 'KasMasuk::delete/$1');
 // === Halaman Utama atau Dashboard (opsional) ===
-$routes->get('/', 'Dashboard::index');
+$routes->get('/', 'Auth::index');
+$routes->post('/login', 'Auth::login');
+$routes->get('/logout', 'Auth::logout');
+
+$routes->get('/admin/dashboard', 'AdminDashboard::index');
 
 // === Kas Masuk ===
 $routes->get('/kasmasuk', 'KasMasuk::index');
