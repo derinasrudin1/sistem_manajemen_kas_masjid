@@ -10,24 +10,17 @@ $routes->get('/auth', [Auth::class, 'index']);
 $routes->post('/auth/login', [Auth::class, 'login']);
 $routes->get('/auth/logout', [Auth::class, 'logout']);
 
-$routes->get('test', function() {
-    $filters = config('Filters');
-    
-    echo "<h2>Registered Filter Aliases:</h2>";
-    echo "<pre>";
-    print_r($filters->aliases);
-    echo "</pre>";
-    
-    echo "<h2>Auth Class Exists:</h2>";
-    echo class_exists('\App\Filters\Auth') ? "YES" : "NO";
-    
-    echo "<h2>Filter File Contents:</h2>";
-    highlight_file(APPPATH.'Filters/Auth.php');
-});
-
 // Protected admin route with auth filter
-$routes->group('admin', ['filter' => 'auth:admin'], function($routes) {
+$routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->get('dashboard', [AdminDashboard::class, 'index']);
+    $routes->get('users', 'Admin\UserController::index');
+
+    // user manajement
+    $routes->get('users/create', 'Admin\UserController::create');
+    $routes->post('users/store', 'Admin\UserController::store');
+    $routes->get('users/edit/(:num)', 'Admin\UserController::edit/$1');
+    $routes->post('users/update/(:num)', 'Admin\UserController::update/$1');
+    $routes->delete('users/delete/(:num)', 'Admin\UserController::delete/$1');
 });
 
 // === Kas Masuk ===

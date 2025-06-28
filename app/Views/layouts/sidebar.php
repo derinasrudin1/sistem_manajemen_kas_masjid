@@ -41,9 +41,9 @@ $role = session()->get('role');
                 <?php if($role === 'admin'): ?>
                 <li class="nav-header">ADMINISTRATOR</li>
                 <li class="nav-item">
-                    <a href="<?= base_url('admin/manajemen-user') ?>" class="nav-link <?= strpos($currentPath, '/admin/manajemen-user') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url('admin/users') ?>" class="nav-link <?= strpos($currentPath, '/admin/users') !== false ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-users-cog"></i>
-                        <p>Manajemen User <?= strpos($currentPath, '/admin/manajemen-user') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
+                        <p>Manajemen User <?= strpos($currentPath, '/admin/users') !== false ? '<span class="right badge badge-success">•</span>' : '' ?></p>
                     </a>
                 </li>
                 <li class="nav-item">
