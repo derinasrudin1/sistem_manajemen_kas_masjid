@@ -96,11 +96,11 @@ $role = session()->get('role');
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url('/riwayat') ?>"
-                            class="nav-link <?= strpos($currentPath, '/riwayat') !== false ? 'active' : '' ?>">
+                        <a href="<?= base_url("$role/riwayat-keuangan") ?>"
+                            class="nav-link <?= strpos($currentPath, "$role/riwayat-keuangan") !== false ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-file-invoice-dollar"></i>
                             <p>Riwayat Keuangan
-                                <?= strpos($currentPath, '/riwayat') !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
+                                <?= strpos($currentPath, "$role/riwayat-keuangan") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                             </p>
                         </a>
                     </li>

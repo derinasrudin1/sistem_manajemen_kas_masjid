@@ -59,15 +59,25 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->delete('kas-keluar/(:num)', 'Admin\KasKeluar::delete/$1');
     $routes->get('kas-keluar/export', 'Admin\KasKeluar::export');
 
-});
+    $routes->get('riwayat-keuangan', 'Admin\RiwayatKeuangan::index');
+    $routes->get('riwayat-keuangan/export-pdf', 'Admin\RiwayatKeuangan::exportPdf');
 
-$routes->get('admin/test-kas-keluar', 'Admin\TestKasKeluar::index');
+    $routes->get('transparansi-keuangan', 'Admin\TransparansiKeuangan::index');
+    $routes->get('transparansi-keuangan/create', 'Admin\TransparansiKeuangan::createLaporan');
+    $routes->post('transparansi-keuangan/store', 'Admin\TransparansiKeuangan::storeLaporan');
+    $routes->get('transparansi-keuangan/publish/(:num)', 'Admin\TransparansiKeuangan::publish/$1');
+    $routes->get('transparansi-keuangan/unpublish/(:num)', 'Admin\TransparansiKeuangan::unpublish/$1');
+    $routes->delete('transparansi-keuangan/delete/(:num)', 'Admin\TransparansiKeuangan::deleteLaporan/$1');
+
+});
 
 $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
     $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
 });
 
+$routes->get('transparansi-keuangan', 'Laporan::index');
+$routes->get('laporan/(:num)', 'Laporan::view/$1');
 
 // === Riwayat Transaksi ===
-$routes->get('riwayat', 'RiwayatTransaksi::index');
+// $routes->get('riwayat', 'RiwayatTransaksi::index');
 
