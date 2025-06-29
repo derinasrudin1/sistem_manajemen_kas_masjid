@@ -76,12 +76,13 @@ $role = session()->get('role');
                 <!-- MENU BENDHARA -->
                 <?php if (in_array($role, ['admin', 'bendahara'])): ?>
                     <li class="nav-header">KEUANGAN</li>
+                    
                     <li class="nav-item">
-                        <a href="<?= base_url('/kasmasuk') ?> "
-                            class="nav-link <?= strpos($currentPath, '/kasmasuk') !== false ? 'active' : '' ?>">
+                    <a href="<?= base_url("$role/kas-masuk") ?> "
+                            class="nav-link <?= strpos($currentPath, "$role/kas-masuk") !== false ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-donate"></i>
                             <p>Kas Masuk
-                                <?= strpos($currentPath, '/kasmasuk') !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
+                                <?= strpos($currentPath, "$role/kas-masuk") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                             </p>
                         </a>
                     </li>
