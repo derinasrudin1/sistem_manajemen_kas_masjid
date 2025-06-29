@@ -51,7 +51,17 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
         $routes->get('view-bukti/(:segment)', 'Admin\KasMasukController::viewBukti/$1');
     });
 
+    $routes->get('kas-keluar', 'Admin\KasKeluar::index');
+    $routes->get('kas-keluar/create', 'Admin\KasKeluar::create');
+    $routes->post('kas-keluar/store', 'Admin\KasKeluar::store'); // Perubahan di sini
+    $routes->get('kas-keluar/edit/(:num)', 'Admin\KasKeluar::edit/$1');
+    $routes->put('kas-keluar/(:num)', 'Admin\KasKeluar::update/$1');
+    $routes->delete('kas-keluar/(:num)', 'Admin\KasKeluar::delete/$1');
+    $routes->get('kas-keluar/export', 'Admin\KasKeluar::export');
+
 });
+
+$routes->get('admin/test-kas-keluar', 'Admin\TestKasKeluar::index');
 
 $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
     $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
