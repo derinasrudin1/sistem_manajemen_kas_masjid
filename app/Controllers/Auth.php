@@ -23,7 +23,8 @@ class Auth extends Controller
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        $user = $userModel->where('username', $username)->first();
+        $user = $userModel->select('users.*, masjid.nama_masjid')
+            ->join('masjid', 'masjid.id_masjid = users.id_masjid', 'left')->where('users.username', $username)->first();
 
         if ($user) {
             // Verify password (using password_verify if you switch to hashed passwords)
@@ -33,6 +34,7 @@ class Auth extends Controller
                     'username' => $user['username'],
                     'nama' => $user['nama'],
                     'role' => $user['role'],
+                    'nama_masjid' => $user['nama_masjid'],
                     'logged_in' => true,
                 ];
                 $session->set($sessionData);

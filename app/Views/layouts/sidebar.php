@@ -10,8 +10,7 @@ $role = session()->get('role');
     <a href="<?= $role ? base_url("$role/dashboard") : base_url('/') ?>" class="brand-link">
         <img src="<?= base_url('icon.jpg') ?>" alt="Logo Masjid" class="brand-image img-circle elevation-3"
             style="opacity: .8">
-        <span class="brand-text font-weight-light">Masjid Al Undira</span>
-    </a>
+        <span class="brand-text font-weight-light"><?= session()->get('nama_masjid') ?? 'Sistem Kas' ?></span> </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -76,9 +75,9 @@ $role = session()->get('role');
                 <!-- MENU BENDHARA -->
                 <?php if (in_array($role, ['admin', 'bendahara'])): ?>
                     <li class="nav-header">KEUANGAN</li>
-                    
+
                     <li class="nav-item">
-                    <a href="<?= base_url("$role/kas-masuk") ?> "
+                        <a href="<?= base_url("$role/kas-masuk") ?> "
                             class="nav-link <?= strpos($currentPath, "$role/kas-masuk") !== false ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-donate"></i>
                             <p>Kas Masuk
@@ -87,7 +86,7 @@ $role = session()->get('role');
                         </a>
                     </li>
                     <li class="nav-item">
-                    <a href="<?= base_url("$role/kas-keluar") ?> "
+                        <a href="<?= base_url("$role/kas-keluar") ?> "
                             class="nav-link <?= strpos($currentPath, "$role/kas-keluar") !== false ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-donate"></i>
                             <p>Kas Keluar

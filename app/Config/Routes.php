@@ -73,6 +73,15 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
 
 $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
     $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
+    $routes->group('kas-masuk', function ($routes) {
+        $routes->get('/', 'Bendahara\KasMasukController::index');
+        $routes->get('create', 'Bendahara\KasMasukController::create');
+        $routes->post('store', 'Bendahara\KasMasukController::store');
+        $routes->get('edit/(:num)', 'Bendahara\KasMasukController::edit/$1');
+        $routes->put('update/(:num)', 'Bendahara\KasMasukController::update/$1');
+        $routes->delete('delete/(:num)', 'Bendahara\KasMasukController::delete/$1');
+        $routes->get('view-bukti/(:segment)', 'Bendahara\KasMasukController::viewBukti/$1');
+    });
 });
 
 $routes->get('transparansi-keuangan', 'Laporan::index');

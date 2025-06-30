@@ -15,15 +15,21 @@ class KasMasukModel extends Model
         'keterangan',
         'bukti',
         'id_user',
-        'id_masjid'
+        'id_masjid',
+        'id_sumber_dana'
     ];
     protected $useTimestamps = false;
 
     public function getKasMasukWithRelations()
     {
-        return $this->select('kas_masuk.*, masjid.nama_masjid, users.nama as nama_user')
-                   ->join('masjid', 'masjid.id_masjid = kas_masuk.id_masjid', 'left')
-                   ->join('users', 'users.id_user = kas_masuk.id_user', 'left')
-                   ->orderBy('kas_masuk.tanggal', 'DESC');
+        $this->select('kas_masuk.*, masjid.nama_masjid, users.nama as nama_user, sumber_dana.nama_sumber');
+        $this->join('masjid', 'masjid.id_masjid = kas_masuk.id_masjid', 'left');
+        $this->join('users', 'users.id_user = kas_masuk.id_user', 'left');
+        $this->join('sumber_dana', 'sumber_dana.id_sumber_dana = kas_masuk.id_sumber_dana', 'left');
+        $this->orderBy('kas_masuk.tanggal', 'DESC');
+
+        // PERUBAHAN: Kembalikan instance Model itu sendiri.
+        return $this;
     }
+
 }
