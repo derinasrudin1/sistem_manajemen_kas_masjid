@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 28, 2025 at 02:34 AM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- Host: localhost
+-- Generation Time: Jun 30, 2025 at 01:53 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,13 +28,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `anggaran` (
-  `id_anggaran` int UNSIGNED NOT NULL,
-  `id_masjid` int UNSIGNED NOT NULL,
+  `id_anggaran` int(10) UNSIGNED NOT NULL,
+  `id_masjid` int(10) UNSIGNED NOT NULL,
   `nama_anggaran` varchar(100) NOT NULL,
   `jumlah` decimal(12,2) NOT NULL,
   `kategori` varchar(50) NOT NULL,
-  `tahun` year NOT NULL,
-  `keterangan` text
+  `tahun` year(4) NOT NULL,
+  `keterangan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -44,14 +44,14 @@ CREATE TABLE `anggaran` (
 --
 
 CREATE TABLE `donasi_online` (
-  `id_donasi` int NOT NULL,
-  `id_masjid` int UNSIGNED DEFAULT NULL,
-  `nama_donatur` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `id_donasi` int(11) NOT NULL,
+  `id_masjid` int(10) UNSIGNED DEFAULT NULL,
+  `nama_donatur` varchar(100) DEFAULT NULL,
   `nominal` decimal(12,2) NOT NULL,
   `tanggal` date NOT NULL,
-  `metode` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `status` enum('pending','selesai') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'pending',
-  `bukti` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL
+  `metode` varchar(50) NOT NULL,
+  `status` enum('pending','selesai') NOT NULL DEFAULT 'pending',
+  `bukti` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -77,14 +77,14 @@ INSERT INTO `donasi_online` (`id_donasi`, `id_masjid`, `nama_donatur`, `nominal`
 --
 
 CREATE TABLE `kas_keluar` (
-  `id_kas_keluar` int UNSIGNED NOT NULL,
+  `id_kas_keluar` int(10) UNSIGNED NOT NULL,
   `tanggal` date NOT NULL,
   `jumlah` decimal(12,2) NOT NULL,
-  `kategori` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `keterangan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `bukti` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `id_user` int UNSIGNED DEFAULT NULL,
-  `id_masjid` int UNSIGNED DEFAULT NULL
+  `kategori` varchar(100) NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  `bukti` varchar(255) DEFAULT NULL,
+  `id_user` int(10) UNSIGNED DEFAULT NULL,
+  `id_masjid` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -92,21 +92,18 @@ CREATE TABLE `kas_keluar` (
 --
 
 INSERT INTO `kas_keluar` (`id_kas_keluar`, `tanggal`, `jumlah`, `kategori`, `keterangan`, `bukti`, `id_user`, `id_masjid`) VALUES
-(1, '2007-05-31', 123664.00, 'Kegiatan Ramadhan', 'Adipisci ut sit sunt et ex voluptatibus sed qui.', NULL, NULL, NULL),
-(2, '2002-06-09', 46237.00, 'Listrik', 'Quia nemo saepe architecto nobis ut non ut.', NULL, NULL, NULL),
+(1, '2007-05-31', 123664.00, 'Kegiatan Ramadhan', 'Adipisci ut sit sunt et ex voluptatibus sed qui.', NULL, 4, 0),
 (3, '2001-12-16', 61849.00, 'Air', 'At aut consequatur quia numquam esse ipsum.', NULL, NULL, NULL),
 (4, '1987-02-21', 91583.00, 'Perlengkapan Masjid', 'Molestiae animi molestias autem et quis vitae.', NULL, NULL, NULL),
 (5, '1976-08-16', 35580.00, 'Kegiatan Ramadhan', 'Corporis dolorem id est reprehenderit.', NULL, NULL, NULL),
 (6, '1981-09-29', 107273.00, 'Perlengkapan Masjid', 'Cum quae placeat ut qui rerum.', NULL, NULL, NULL),
-(7, '2018-09-13', 78000.00, 'Kegiatan Ramadhan', 'Pariatur deleniti odit ipsa aperiam.', NULL, NULL, NULL),
+(7, '2018-09-13', 78000.00, 'Kegiatan Ramadhan', 'Pariatur deleniti odit ipsa aperiam.', NULL, 4, 2),
 (8, '1986-06-05', 130784.00, 'Air', 'Non deserunt molestias tempora sit architecto neque quos nobis.', NULL, NULL, NULL),
 (9, '1979-07-30', 50654.00, 'Air', 'Ducimus fuga iure aut alias esse cumque.', NULL, NULL, NULL),
 (10, '2000-10-30', 101246.00, 'Perlengkapan Masjid', 'Libero praesentium molestiae et debitis quis.', NULL, NULL, NULL),
 (11, '1978-02-12', 34344.00, 'Kegiatan Ramadhan', 'Commodi est deleniti ullam quam perspiciatis omnis.', NULL, NULL, NULL),
 (12, '1987-11-26', 13672.00, 'Perlengkapan Masjid', 'Tempore optio magnam soluta dolores magnam fuga.', NULL, NULL, NULL),
-(13, '1974-11-06', 76459.00, 'Listrik', 'Ipsum sed quod illo est sint aut.', NULL, NULL, NULL),
-(14, '2016-12-01', 60946.00, 'Listrik', 'Qui quidem qui deleniti sed dolorum minus.', NULL, NULL, NULL),
-(15, '1973-12-08', 32314.00, 'Kegiatan Ramadhan', 'Error velit optio ut doloremque eum qui.', NULL, NULL, NULL);
+(16, '2025-06-29', 20000000.00, 'Listrik', 'ds', NULL, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -115,14 +112,14 @@ INSERT INTO `kas_keluar` (`id_kas_keluar`, `tanggal`, `jumlah`, `kategori`, `ket
 --
 
 CREATE TABLE `kas_masuk` (
-  `id_kas_masuk` int UNSIGNED NOT NULL,
+  `id_kas_masuk` int(10) UNSIGNED NOT NULL,
   `tanggal` date NOT NULL,
   `jumlah` decimal(12,2) NOT NULL,
-  `sumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `keterangan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `bukti` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `id_user` int UNSIGNED DEFAULT NULL,
-  `id_masjid` int UNSIGNED DEFAULT NULL
+  `sumber` varchar(100) NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  `bukti` varchar(255) DEFAULT NULL,
+  `id_user` int(10) UNSIGNED DEFAULT NULL,
+  `id_masjid` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -131,7 +128,6 @@ CREATE TABLE `kas_masuk` (
 
 INSERT INTO `kas_masuk` (`id_kas_masuk`, `tanggal`, `jumlah`, `sumber`, `keterangan`, `bukti`, `id_user`, `id_masjid`) VALUES
 (1, '2025-04-15', 194616.00, 'Kotak Amal', 'Hasil Jumatan\r\n', NULL, NULL, NULL),
-(2, '1977-01-12', 63846.00, 'Lainnya', 'Perferendis quae id deserunt quo reprehenderit aliquid.', NULL, NULL, NULL),
 (3, '2016-08-30', 68988.00, 'Lainnya', 'Quidem quia assumenda facere odit.', NULL, NULL, NULL),
 (4, '1996-05-25', 142365.00, 'Donatur Tetap', 'Maiores atque voluptatem nisi aspernatur quos vel doloremque.', NULL, NULL, NULL),
 (5, '1977-11-04', 99294.00, 'Transfer Bank', 'Vero optio perferendis aperiam sed iusto voluptate est.', NULL, NULL, NULL),
@@ -144,11 +140,9 @@ INSERT INTO `kas_masuk` (`id_kas_masuk`, `tanggal`, `jumlah`, `sumber`, `keteran
 (13, '1999-10-29', 72466.00, 'Kotak Amal', 'Dolor et consequuntur porro voluptas enim dolore officiis ipsa.', NULL, NULL, NULL),
 (15, '1992-12-16', 119635.00, 'Lainnya', 'Modi alias cupiditate in autem.', NULL, NULL, NULL),
 (16, '1999-09-11', 171832.00, 'Lainnya', 'Aut nemo repellendus voluptatem et quia sint delectus.', NULL, NULL, NULL),
-(17, '1975-05-08', 169500.00, 'Transfer Bank', 'Fuga voluptatem quod sit et.', NULL, NULL, NULL),
 (18, '1993-08-09', 173580.00, 'Lainnya', 'Ratione qui labore eveniet qui necessitatibus voluptatem.', NULL, NULL, NULL),
 (20, '1986-09-29', 160790.00, 'Donatur Tetap', 'Id sunt voluptatem quia enim.', NULL, NULL, NULL),
-(21, '2025-06-03', 50000.00, 'Ovo', 'Hamba Allah di Cibugis', NULL, NULL, NULL),
-(22, '2025-06-20', 500000.00, 'Warga RT 02', 'Hasil keliling RT 02', NULL, NULL, NULL);
+(22, '2025-06-20', 500000.00, 'Kotak Amal', 'Hasil keliling RT 02', NULL, NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -157,8 +151,8 @@ INSERT INTO `kas_masuk` (`id_kas_masuk`, `tanggal`, `jumlah`, `sumber`, `keteran
 --
 
 CREATE TABLE `kategori_pengeluaran` (
-  `id_kategori` int NOT NULL,
-  `nama_kategori` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `id_kategori` int(11) NOT NULL,
+  `nama_kategori` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -178,17 +172,19 @@ INSERT INTO `kategori_pengeluaran` (`id_kategori`, `nama_kategori`) VALUES
 --
 
 CREATE TABLE `laporan` (
-  `id_laporan` int UNSIGNED NOT NULL,
-  `id_masjid` int UNSIGNED NOT NULL,
-  `id_user` int UNSIGNED DEFAULT NULL,
+  `id_laporan` int(10) UNSIGNED NOT NULL,
+  `id_masjid` int(10) UNSIGNED NOT NULL,
+  `id_user` int(10) UNSIGNED NOT NULL,
   `judul` varchar(255) NOT NULL,
   `periode_awal` date NOT NULL,
   `periode_akhir` date NOT NULL,
   `total_pemasukan` decimal(12,2) NOT NULL,
   `total_pengeluaran` decimal(12,2) NOT NULL,
   `saldo_akhir` decimal(12,2) NOT NULL,
-  `catatan` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `catatan` text DEFAULT NULL,
+  `status` enum('draft','published') NOT NULL DEFAULT 'draft',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -198,14 +194,22 @@ CREATE TABLE `laporan` (
 --
 
 CREATE TABLE `masjid` (
-  `id_masjid` int UNSIGNED NOT NULL,
+  `id_masjid` int(10) UNSIGNED NOT NULL,
   `nama_masjid` varchar(100) NOT NULL,
   `alamat` text NOT NULL,
   `rt_rw` varchar(10) NOT NULL,
   `nama_takmir` varchar(100) DEFAULT NULL,
   `kontak` varchar(20) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `masjid`
+--
+
+INSERT INTO `masjid` (`id_masjid`, `nama_masjid`, `alamat`, `rt_rw`, `nama_takmir`, `kontak`, `created_at`, `updated_at`) VALUES
+(2, 'Nurul Huda', 'Perumahan Vida', '05/07', 'Ainul Yakin', '081847389485', '2025-06-28 03:44:48', '2025-06-28 03:44:48');
 
 -- --------------------------------------------------------
 
@@ -214,13 +218,13 @@ CREATE TABLE `masjid` (
 --
 
 CREATE TABLE `migrations` (
-  `id` bigint UNSIGNED NOT NULL,
-  `version` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `group` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `namespace` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `time` int NOT NULL,
-  `batch` int UNSIGNED NOT NULL
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `version` varchar(255) NOT NULL,
+  `class` varchar(255) NOT NULL,
+  `group` varchar(255) NOT NULL,
+  `namespace` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  `batch` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -243,12 +247,12 @@ INSERT INTO `migrations` (`id`, `version`, `class`, `group`, `namespace`, `time`
 --
 
 CREATE TABLE `riwayat_transaksi` (
-  `id_transaksi` int NOT NULL,
-  `jenis` enum('masuk','keluar') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `jenis` enum('masuk','keluar') NOT NULL,
   `tanggal` date NOT NULL,
   `jumlah` decimal(12,2) NOT NULL,
-  `keterangan` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
-  `id_user` int UNSIGNED DEFAULT NULL
+  `keterangan` text DEFAULT NULL,
+  `id_user` int(10) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -284,9 +288,9 @@ INSERT INTO `riwayat_transaksi` (`id_transaksi`, `jenis`, `tanggal`, `jumlah`, `
 --
 
 CREATE TABLE `rt_masjid` (
-  `id` int UNSIGNED NOT NULL,
-  `id_user` int UNSIGNED NOT NULL,
-  `id_masjid` int UNSIGNED NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `id_user` int(10) UNSIGNED NOT NULL,
+  `id_masjid` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -296,8 +300,8 @@ CREATE TABLE `rt_masjid` (
 --
 
 CREATE TABLE `sumber_dana` (
-  `id_sumber` int NOT NULL,
-  `nama_sumber` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+  `id_sumber` int(11) NOT NULL,
+  `nama_sumber` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -317,13 +321,13 @@ INSERT INTO `sumber_dana` (`id_sumber`, `nama_sumber`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id_user` int UNSIGNED NOT NULL,
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `nama` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('admin','bendahara','rt') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `id_user` int(10) UNSIGNED NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `role` enum('admin','bendahara','rt') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -332,8 +336,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `nama`, `role`, `created_at`, `updated_at`) VALUES
 (4, 'admin', '0192023a7bbd73250516f069df18b500', 'Administrator', 'admin', '2025-06-28 02:06:50', '2025-06-28 02:06:50'),
-(5, 'bendahara', 'c9ccd7f3c1145515a9d3f7415d5bcbea', 'Bendahara', 'bendahara', '2025-06-28 02:19:10', '2025-06-28 02:19:10'),
-(6, 'rt01', '327f42dc9cc897f17dc63852d31d3a99', 'kevin tak ingin disakiti', 'rt', '2025-06-28 02:34:11', '2025-06-28 02:34:11');
+(5, 'bendahara', 'c9ccd7f3c1145515a9d3f7415d5bcbea', 'Bendahara', 'bendahara', '2025-06-28 02:19:10', '2025-06-28 01:16:51'),
+(7, 'rtkevintakingindisakiti', '6016203db2a106d6ae9354052c2caa6a', 'RT Kevin Tak Ingin Disakiti', 'rt', '2025-06-28 01:16:39', '2025-06-28 01:16:39');
 
 --
 -- Indexes for dumped tables
@@ -431,123 +435,84 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `anggaran`
 --
 ALTER TABLE `anggaran`
-  MODIFY `id_anggaran` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_anggaran` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `donasi_online`
 --
 ALTER TABLE `donasi_online`
-  MODIFY `id_donasi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_donasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `kas_keluar`
 --
 ALTER TABLE `kas_keluar`
-  MODIFY `id_kas_keluar` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_kas_keluar` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `kas_masuk`
 --
 ALTER TABLE `kas_masuk`
-  MODIFY `id_kas_masuk` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_kas_masuk` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `kategori_pengeluaran`
 --
 ALTER TABLE `kategori_pengeluaran`
-  MODIFY `id_kategori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `laporan`
 --
 ALTER TABLE `laporan`
-  MODIFY `id_laporan` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_laporan` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `masjid`
 --
 ALTER TABLE `masjid`
-  MODIFY `id_masjid` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_masjid` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `riwayat_transaksi`
 --
 ALTER TABLE `riwayat_transaksi`
-  MODIFY `id_transaksi` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `rt_masjid`
 --
 ALTER TABLE `rt_masjid`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sumber_dana`
 --
 ALTER TABLE `sumber_dana`
-  MODIFY `id_sumber` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_sumber` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `anggaran`
---
-ALTER TABLE `anggaran`
-  ADD CONSTRAINT `fk_anggaran_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `donasi_online`
---
-ALTER TABLE `donasi_online`
-  ADD CONSTRAINT `fk_donasi_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `kas_keluar`
---
-ALTER TABLE `kas_keluar`
-  ADD CONSTRAINT `fk_kas_keluar_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `kas_keluar_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `kas_masuk`
---
-ALTER TABLE `kas_masuk`
-  ADD CONSTRAINT `fk_kas_masuk_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `kas_masuk_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
 -- Constraints for table `laporan`
 --
 ALTER TABLE `laporan`
-  ADD CONSTRAINT `fk_laporan_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_laporan_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `riwayat_transaksi`
---
-ALTER TABLE `riwayat_transaksi`
-  ADD CONSTRAINT `riwayat_transaksi_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
-
---
--- Constraints for table `rt_masjid`
---
-ALTER TABLE `rt_masjid`
-  ADD CONSTRAINT `fk_rt_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_rt_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_laporan_masjid` FOREIGN KEY (`id_masjid`) REFERENCES `masjid` (`id_masjid`),
+  ADD CONSTRAINT `fk_laporan_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
