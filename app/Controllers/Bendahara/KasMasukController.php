@@ -198,7 +198,7 @@ class KasMasukController extends BaseController
 
         // 6. Lakukan update ke database
         if ($this->kasMasukModel->update($id, $dataToUpdate)) {
-            return redirect()->to('/bendahara/kas_masuk')->with('success', 'Data kas masuk berhasil diperbarui.');
+            return redirect()->to('/bendahara/kas-masuk')->with('success', 'Data kas masuk berhasil diperbarui.');
         } else {
             return redirect()->back()->withInput()->with('error', 'Gagal memperbarui data.');
         }
