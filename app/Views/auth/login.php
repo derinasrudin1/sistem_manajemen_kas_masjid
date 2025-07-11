@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Login | Nama Aplikasi Anda</title>
+    <title>Login</title>
     <link rel="stylesheet" href="<?= base_url('adminlte/plugins/fontawesome-free/css/all.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('adminlte/dist/css/adminlte.min.css') ?>">
 
