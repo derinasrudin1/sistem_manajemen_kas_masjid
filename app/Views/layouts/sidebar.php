@@ -79,7 +79,7 @@ $role = session()->get('role');
                     <li class="nav-item">
                         <a href="<?= base_url("$role/kas-masuk") ?> "
                             class="nav-link <?= strpos($currentPath, "$role/kas-masuk") !== false ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-donate"></i>
+                            <i class="fas fa-hand-holding-usd"></i>
                             <p>Kas Masuk
                                 <?= strpos($currentPath, "$role/kas-masuk") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                             </p>
@@ -88,18 +88,18 @@ $role = session()->get('role');
                     <li class="nav-item">
                         <a href="<?= base_url("$role/kas-keluar") ?> "
                             class="nav-link <?= strpos($currentPath, "$role/kas-keluar") !== false ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-donate"></i>
+                            <i class="fas fa-file-invoice-dollar"></i>
                             <p>Kas Keluar
                                 <?= strpos($currentPath, "$role/kas-keluar") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                             </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?= base_url("$role/riwayat-keuangan") ?>"
-                            class="nav-link <?= strpos($currentPath, "$role/riwayat-keuangan") !== false ? 'active' : '' ?>">
-                            <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                        <a href="<?= base_url("$role/riwayat-transaksi") ?>"
+                            class="nav-link <?= strpos($currentPath, "$role/riwayat-transaksi") !== false ? 'active' : '' ?>">
+                            <i class="fas fa-history"></i>
                             <p>Riwayat Keuangan
-                                <?= strpos($currentPath, "$role/riwayat-keuangan") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
+                                <?= strpos($currentPath, "$role/riwayat-transaksi") !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                             </p>
                         </a>
                     </li>

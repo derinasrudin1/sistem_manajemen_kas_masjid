@@ -35,6 +35,7 @@ class Auth extends Controller
                     'nama' => $user['nama'],
                     'role' => $user['role'],
                     'nama_masjid' => $user['nama_masjid'],
+                    'id_masjid' => $user['id_masjid'],
                     'logged_in' => true,
                 ];
                 $session->set($sessionData);

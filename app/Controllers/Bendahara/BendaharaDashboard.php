@@ -4,37 +4,35 @@ namespace App\Controllers\Bendahara;
 
 use App\Models\KasMasukModel;
 use App\Models\KasKeluarModel;
-use App\Models\UserModel;
 use App\Controllers\BaseController;
-
 
 class BendaharaDashboard extends BaseController
 {
-    protected $kasMasuk;
-
-    public function __construct()
-    {
-        $this->kasMasuk = new KasMasukModel();
-    }
-
     public function index()
     {
-        // 1. Proteksi Halaman
-        if (session()->get('role') !== 'bendahara') {
-            return redirect()->to('/')->with('error', 'Anda tidak memiliki akses.');
+        // 1. Ambil ID Masjid dari session
+        $userMasjidId = session()->get('id_masjid');
+
+        // Jika karena suatu alasan bendahara tidak punya id_masjid, beri pesan error.
+        if (!$userMasjidId) {
+            return redirect()->to('/logout')->with('error', 'Sesi tidak valid. Akun Anda tidak terhubung dengan masjid manapun.');
         }
 
         // 2. Siapkan Model
         $kasMasukModel = new KasMasukModel();
         $kasKeluarModel = new KasKeluarModel();
 
-        // --- 3. Hitung Data untuk Kartu Statistik (Small Boxes) ---
-        $total_masuk = $kasMasukModel->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
-        $total_keluar = $kasKeluarModel->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
+        // --- 3. Hitung Data untuk Kartu Statistik (dengan filter masjid) ---
+        $total_masuk = $kasMasukModel->where('id_masjid', $userMasjidId)
+            ->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
+
+        $total_keluar = $kasKeluarModel->where('id_masjid', $userMasjidId)
+            ->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
+
         $sisa_saldo = $total_masuk - $total_keluar;
         $persentase = ($total_masuk > 0) ? round(($sisa_saldo / $total_masuk) * 100) : 0;
 
-        // --- 4. Hitung Data untuk Grafik Batang (Bar Chart) ---
+        // --- 4. Hitung Data untuk Grafik Batang (dengan filter masjid) ---
         $barChartLabels = [];
         $pemasukanData = [];
         $pengeluaranData = [];
@@ -44,30 +42,44 @@ class BendaharaDashboard extends BaseController
             $year = date('Y', $datePoint);
             $formatter = new \IntlDateFormatter('id_ID', \IntlDateFormatter::NONE, \IntlDateFormatter::NONE, null, null, 'MMMM Y');
             $barChartLabels[] = $formatter->format($datePoint);
-            $pemasukanBulanan = $kasMasukModel->where('MONTH(tanggal)', $month)->where('YEAR(tanggal)', $year)->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
-            $pemasukanData[] = $pemasukanBulanan;
-            $pengeluaranBulanan = $kasKeluarModel->where('MONTH(tanggal)', $month)->where('YEAR(tanggal)', $year)->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
-            $pengeluaranData[] = $pengeluaranBulanan;
+
+            $pemasukanBulanan = $kasMasukModel->where('id_masjid', $userMasjidId) // <-- Filter
+                ->where('MONTH(tanggal)', $month)
+                ->where('YEAR(tanggal)', $year)
+                ->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
+            $pemasukanData[] = (float) $pemasukanBulanan;
+
+            $pengeluaranBulanan = $kasKeluarModel->where('id_masjid', $userMasjidId) // <-- Filter
+                ->where('MONTH(tanggal)', $month)
+                ->where('YEAR(tanggal)', $year)
+                ->selectSum('jumlah', 'total')->get()->getRow()->total ?? 0;
+            $pengeluaranData[] = (float) $pengeluaranBulanan;
         }
         $barChartData = ['labels' => $barChartLabels, 'datasets' => [['label' => 'Pemasukan', 'backgroundColor' => 'rgba(26, 179, 148, 0.5)', 'borderColor' => 'rgb(26, 179, 148)', 'data' => $pemasukanData,], ['label' => 'Pengeluaran', 'backgroundColor' => 'rgba(237, 85, 101, 0.5)', 'borderColor' => 'rgb(237, 85, 101)', 'data' => $pengeluaranData,],],];
 
-        // --- 5. Hitung Data untuk Pie Chart Pemasukan ---
-        $pemasukanBySumber = $kasMasukModel->select('sumber, SUM(jumlah) as total')->groupBy('sumber')->findAll();
+        // --- 5. Hitung Data untuk Pie Chart Pemasukan (dengan filter masjid & JOIN) ---
+        $pemasukanBySumber = $kasMasukModel->where('kas_masuk.id_masjid', $userMasjidId) // <-- Filter
+            ->select('sumber_dana.nama_sumber, SUM(kas_masuk.jumlah) as total')
+            ->join('sumber_dana', 'sumber_dana.id_sumber_dana = kas_masuk.id_sumber_dana', 'left')
+            ->groupBy('sumber_dana.nama_sumber')->findAll();
         $piePemasukanLabels = [];
         $piePemasukanData = [];
         foreach ($pemasukanBySumber as $row) {
-            $piePemasukanLabels[] = $row['sumber'];
-            $piePemasukanData[] = (float) $row['total']; // Diubah menjadi angka
+            $piePemasukanLabels[] = $row['nama_sumber'] ?? 'Lainnya';
+            $piePemasukanData[] = (float) $row['total'];
         }
         $pieChartPemasukan = ['labels' => $piePemasukanLabels, 'datasets' => [['data' => $piePemasukanData,]]];
 
-        // --- 6. Hitung Data untuk Pie Chart Pengeluaran ---
-        $pengeluaranByKategori = $kasKeluarModel->select('kategori, SUM(jumlah) as total')->groupBy('kategori')->findAll();
+        // --- 6. Hitung Data untuk Pie Chart Pengeluaran (dengan filter masjid & JOIN) ---
+        $pengeluaranByKategori = $kasKeluarModel->where('kas_keluar.id_masjid', $userMasjidId) // <-- Filter
+            ->select('kategori_pengeluaran.nama_kategori, SUM(kas_keluar.jumlah) as total')
+            ->join('kategori_pengeluaran', 'kategori_pengeluaran.id_kategori = kas_keluar.id_kategori', 'left')
+            ->groupBy('kategori_pengeluaran.nama_kategori')->findAll();
         $piePengeluaranLabels = [];
         $piePengeluaranData = [];
         foreach ($pengeluaranByKategori as $row) {
-            $piePengeluaranLabels[] = $row['kategori'];
-            $piePengeluaranData[] = (float) $row['total']; // Diubah menjadi angka
+            $piePengeluaranLabels[] = $row['nama_kategori'] ?? 'Lainnya';
+            $piePengeluaranData[] = (float) $row['total'];
         }
         $pieChartPengeluaran = ['labels' => $piePengeluaranLabels, 'datasets' => [['data' => $piePengeluaranData,]]];
 
@@ -83,9 +95,6 @@ class BendaharaDashboard extends BaseController
             'pieChartPengeluaran' => $pieChartPengeluaran,
         ];
 
-
         return view('dashboard/dashboard_bendahara', $data);
     }
-
-
 }

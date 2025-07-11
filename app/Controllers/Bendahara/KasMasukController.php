@@ -81,6 +81,7 @@ class KasMasukController extends BaseController
             'tanggal' => $this->request->getPost('tanggal'),
             'jumlah' => $this->request->getPost('jumlah'),
             'id_sumber_dana' => $this->request->getPost('id_sumber_dana'),
+            // 'sumber' => $this->request->getPost('sumber'),
             'keterangan' => $this->request->getPost('keterangan'),
             'id_user' => session()->get('id_user'),
             'id_masjid' => session()->get('id_masjid')
@@ -213,7 +214,7 @@ class KasMasukController extends BaseController
             ->first();
 
         if (!$kasMasuk) {
-            return redirect()->to('/bendahara/kas_masuk')->with('error', 'Data tidak ditemukan atau Anda tidak memiliki hak akses.');
+            return redirect()->to('/bendahara/kas-masuk')->with('error', 'Data tidak ditemukan atau Anda tidak memiliki hak akses.');
         }
 
         if ($kasMasuk['bukti'] && file_exists($this->uploadPath . $kasMasuk['bukti'])) {
@@ -221,9 +222,9 @@ class KasMasukController extends BaseController
         }
 
         if ($this->kasMasukModel->delete($id)) {
-            return redirect()->to('/bendahara/kas_masuk')->with('success', 'Data kas masuk berhasil dihapus.');
+            return redirect()->to('/bendahara/kas-masuk')->with('success', 'Data kas masuk berhasil dihapus.');
         } else {
-            return redirect()->to('/bendahara/kas_masuk')->with('error', 'Gagal menghapus data.');
+            return redirect()->to('/bendahara/kas-masuk')->with('error', 'Gagal menghapus data.');
         }
     }
 

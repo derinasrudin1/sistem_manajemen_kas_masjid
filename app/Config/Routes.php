@@ -73,6 +73,8 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
 
 $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
     $routes->get('dashboard', [BendaharaDashboard::class, 'index']);
+    $routes->get('riwayat-transaksi', 'Bendahara\RiwayatTransaksiController::index');
+
     $routes->group('kas-masuk', function ($routes) {
         $routes->get('/', 'Bendahara\KasMasukController::index');
         $routes->get('create', 'Bendahara\KasMasukController::create');
@@ -81,6 +83,15 @@ $routes->group('bendahara', ['filter' => 'auth:bendahara'], function ($routes) {
         $routes->put('update/(:num)', 'Bendahara\KasMasukController::update/$1');
         $routes->delete('delete/(:num)', 'Bendahara\KasMasukController::delete/$1');
         $routes->get('view-bukti/(:segment)', 'Bendahara\KasMasukController::viewBukti/$1');
+    });
+    $routes->group('kas-keluar', function ($routes) {
+        $routes->get('/', 'Bendahara\KasKeluarController::index');
+        $routes->get('create', 'Bendahara\KasKeluarController::create');
+        $routes->post('store', 'Bendahara\KasKeluarController::store');
+        $routes->get('edit/(:num)', 'Bendahara\KasKeluarController::edit/$1');
+        $routes->put('update/(:num)', 'Bendahara\KasKeluarController::update/$1');
+        $routes->delete('delete/(:num)', 'Bendahara\KasKeluarController::delete/$1');
+        $routes->get('view-bukti/(:segment)', 'Bendahara\KasKeluarController::viewBukti/$1');
     });
 });
 

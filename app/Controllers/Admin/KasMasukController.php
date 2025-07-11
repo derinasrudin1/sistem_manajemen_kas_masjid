@@ -20,7 +20,7 @@ class KasMasukController extends BaseController
         $this->masjidModel = new MasjidModel();
         $this->sumberDanaModel = new SumberDanaModel();
         $this->uploadPath = WRITEPATH . '../public/uploads/bukti_kas_masuk/';
-        
+
         // Ensure upload directory exists
         if (!is_dir($this->uploadPath)) {
             mkdir($this->uploadPath, 0777, true);
@@ -70,7 +70,7 @@ class KasMasukController extends BaseController
         }
 
         $fileBukti = $this->request->getFile('bukti');
-        
+
         // Verify file upload
         if (!$fileBukti->isValid()) {
             return redirect()->back()
@@ -148,7 +148,7 @@ class KasMasukController extends BaseController
         ];
 
         $fileBukti = $this->request->getFile('bukti');
-        
+
         // Add file validation rules only if new file is uploaded
         if ($fileBukti->getName() !== '') {
             $rules['bukti'] = [
@@ -166,7 +166,7 @@ class KasMasukController extends BaseController
 
         // Get existing data
         $existingData = $this->kasMasukModel->find($id);
-        
+
         // Prepare update data
         $data = [
             'tanggal' => $this->request->getPost('tanggal'),
