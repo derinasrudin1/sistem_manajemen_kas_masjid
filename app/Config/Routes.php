@@ -59,7 +59,7 @@ $routes->group('admin', ['filter' => 'auth:admin'], function ($routes) {
     $routes->delete('kas-keluar/(:num)', 'Admin\KasKeluar::delete/$1');
     $routes->get('kas-keluar/export', 'Admin\KasKeluar::export');
 
-    $routes->get('riwayat-keuangan', 'Admin\RiwayatKeuangan::index');
+    $routes->get('riwayat-transaksi', 'Admin\RiwayatKeuangan::index');
     $routes->get('riwayat-keuangan/export-pdf', 'Admin\RiwayatKeuangan::exportPdf');
 
     $routes->get('transparansi-keuangan', 'Admin\TransparansiKeuangan::index');

@@ -138,7 +138,7 @@ $role = session()->get('role');
                 <?php endif; ?>
 
                 <!-- MENU PUBLIK -->
-                <li class="nav-header">INFORMASI PUBLIK</li>
+                <!-- <li class="nav-header">INFORMASI PUBLIK</li>
                 <li class="nav-item">
                     <a href="<?= base_url('transparansi') ?>"
                         class="nav-link <?= strpos($currentPath, '/transparansi') !== false ? 'active' : '' ?>">
@@ -156,7 +156,7 @@ $role = session()->get('role');
                             <?= strpos($currentPath, '/donasi') !== false ? '<span class="right badge badge-success">•</span>' : '' ?>
                         </p>
                     </a>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </div>
