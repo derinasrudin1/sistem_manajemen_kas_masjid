@@ -6,6 +6,8 @@ use App\Controllers\Auth;
 use App\Controllers\Admin\AdminDashboard;
 use App\Controllers\Bendahara\BendaharaDashboard;
 
+$routes->get('/', 'LandingPageController::index');
+
 // Authentication routes
 $routes->get('/auth', [Auth::class, 'index']);
 $routes->post('/auth/login', [Auth::class, 'login']);
