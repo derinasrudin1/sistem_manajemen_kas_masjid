@@ -63,7 +63,10 @@
                 <p class="login-box-msg">Login ke Sistem</p>
 
                 <?php if (session()->getFlashdata('error')): ?>
-                    <div class="alert alert-danger text-center"><?= session()->getFlashdata('error') ?></div>
+                    <div class="alert alert-danger" role="alert" id="error-alert">
+                        <?= session()->getFlashdata('error') ?>
+                        <!-- Placeholder untuk countdown akan ditambahkan oleh JavaScript -->
+                    </div>
                 <?php endif; ?>
 
                 <form action="<?= base_url('/auth/login') ?>" method="post">
@@ -96,6 +99,47 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ambil waktu akhir penguncian dari PHP (dalam detik)
+            const lockoutEndTime = <?= $lockout_time ?? 0 ?>;
+            const now = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
+
+            // Cek apakah waktu penguncian masih aktif
+            if (lockoutEndTime > now) {
+                const loginButton = document.getElementById('loginButton');
+                const errorAlert = document.getElementById('error-alert');
+
+                // Buat elemen baru untuk menampilkan countdown
+                const countdownElement = document.createElement('div');
+                countdownElement.className = 'mt-2';
+                if (errorAlert) {
+                    errorAlert.appendChild(countdownElement);
+                }
+
+                // Matikan tombol login
+                loginButton.disabled = true;
+                loginButton.innerText = 'Tunggu...';
+
+                // Fungsi untuk memperbarui timer setiap detik
+                const timer = setInterval(function () {
+                    const currentTime = Math.floor(Date.now() / 1000);
+                    const remainingSeconds = lockoutEndTime - currentTime;
+
+                    if (remainingSeconds > 0) {
+                        // Tampilkan sisa waktu
+                        countdownElement.innerHTML = `<strong>Silakan coba lagi dalam ${remainingSeconds} detik.</strong>`;
+                    } else {
+                        // Jika waktu habis, hentikan timer dan aktifkan kembali tombol
+                        clearInterval(timer);
+                        countdownElement.innerHTML = '<strong>Anda sudah bisa mencoba login kembali.</strong>';
+                        loginButton.disabled = false;
+                        loginButton.innerText = 'Login';
+                    }
+                }, 1000); // Update setiap 1 detik
+            }
+        });
+    </script>
     <script src="<?= base_url('adminlte/plugins/jquery/jquery.min.js') ?>"></script>
     <script src="<?= base_url('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= base_url('adminlte/dist/js/adminlte.min.js') ?>"></script>
