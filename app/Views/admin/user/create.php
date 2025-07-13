@@ -15,15 +15,16 @@
     </div>
     <form method="POST" action="<?= base_url('admin/users/store') ?>">
         <div class="card-body">
-            <?php if(isset($validation)): ?>
-            <div class="alert alert-danger">
-                <?= $validation->listErrors() ?>
-            </div>
+            <?php if (isset($validation)): ?>
+                <div class="alert alert-danger">
+                    <?= $validation->listErrors() ?>
+                </div>
             <?php endif; ?>
 
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" name="username" value="<?= old('username') ?>" required>
+                <input type="text" class="form-control" id="username" name="username" value="<?= old('username') ?>"
+                    required>
                 <small class="text-muted">Minimal 5 karakter</small>
             </div>
 
@@ -41,13 +42,26 @@
             <div class="form-group">
                 <label for="role">Role</label>
                 <select class="form-control" id="role" name="role" required>
-                    <?php foreach($roles as $role): ?>
-                    <option value="<?= $role ?>" <?= old('role') == $role ? 'selected' : '' ?>>
-                        <?= strtoupper($role) ?>
-                    </option>
+                    <?php foreach ($roles as $role): ?>
+                        <option value="<?= $role ?>" <?= old('role') == $role ? 'selected' : '' ?>>
+                            <?= strtoupper($role) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
             </div>
+            <div class="form-group" id="masjid-form-group" style="display: none;">
+                <label for="id_masjid">Pilih Masjid</label>
+                <select class="form-control" id="id_masjid" name="id_masjid">
+                    <option value="">-- Tidak Ditugaskan --</option>
+                    <?php foreach ($masjids as $masjid): ?>
+                        <option value="<?= $masjid['id_masjid'] ?>" <?= old('id_masjid') == $masjid['id_masjid'] ? 'selected' : '' ?>>
+                            <?= esc($masjid['nama_masjid']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <small class="text-muted">Tugaskan user ini ke masjid tertentu (wajib untuk Bendahara).</small>
+            </div>
+
         </div>
         <div class="card-footer">
             <button type="submit" class="btn btn-primary">
@@ -59,4 +73,30 @@
         </div>
     </form>
 </div>
+<?= $this->endSection() ?>
+<?= $this->section('pageScripts') ?>
+<script>
+    // menampilkan/menyembunyikan dropdown masjid berdasarkan role
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSelect = document.getElementById('role');
+        const masjidFormGroup = document.getElementById('masjid-form-group');
+
+        function toggleMasjidSelect() {
+            // Tampilkan dropdown masjid jika role BUKAN 'admin'
+            if (roleSelect.value !== 'admin') {
+                masjidFormGroup.style.display = 'block';
+                document.getElementById('id_masjid').setAttribute('required', 'required');
+            } else {
+                masjidFormGroup.style.display = 'none';
+                document.getElementById('id_masjid').removeAttribute('required');
+            }
+        }
+
+        // Jalankan fungsi saat halaman pertama kali dimuat
+        toggleMasjidSelect();
+
+        // Jalankan fungsi setiap kali nilai role berubah
+        roleSelect.addEventListener('change', toggleMasjidSelect);
+    });
+</script>
 <?= $this->endSection() ?>

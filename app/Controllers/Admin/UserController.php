@@ -3,14 +3,17 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\MasjidModel;
 
 class UserController extends BaseController
 {
     protected $userModel;
+    protected $masjidModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->masjidModel = new MasjidModel();
         helper('form');
     }
 
@@ -19,7 +22,11 @@ class UserController extends BaseController
         $data = [
             'title' => 'Manajemen User',
             'users' => $this->userModel->findAll(),
-            'roles' => ['admin', 'bendahara', 'rt']
+            'roles' => [
+                'admin',
+                'bendahara',
+                // 'rt'
+            ]
         ];
         return view('admin/user/index', $data);
     }
@@ -28,31 +35,43 @@ class UserController extends BaseController
     {
         $data = [
             'title' => 'Tambah User Baru',
-            'roles' => ['admin', 'bendahara', 'rt'],
+            'roles' => [
+                'admin',
+                'bendahara',
+                // 'rt'
+            ],
+            'masjids' => $this->masjidModel->findAll(),
             'validation' => \Config\Services::validation()
         ];
+
         return view('admin/user/create', $data);
     }
 
     public function store()
     {
+
         $rules = [
             'username' => 'required|is_unique[users.username]|min_length[5]',
             'password' => 'required|min_length[6]',
             'nama' => 'required',
-            'role' => 'required|in_list[admin,bendahara,rt]'
+            'role' => 'required|in_list[admin,bendahara]',
+            'id_masjid' => 'permit_empty|numeric'
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $this->userModel->save([
+
+        $dataToSave = [
             'username' => $this->request->getPost('username'),
-            'password' => $this->request->getPost('password'), // Auto MD5 via model
+            'password' => $this->request->getPost('password'),
             'nama' => $this->request->getPost('nama'),
-            'role' => $this->request->getPost('role')
-        ]);
+            'role' => $this->request->getPost('role'),
+            'id_masjid' => ($this->request->getPost('role') === 'admin') ? null : $this->request->getPost('id_masjid')
+        ];
+
+        $this->userModel->save($dataToSave);
 
         return redirect()->to('/admin/users')->with('message', 'User berhasil ditambahkan');
     }
@@ -62,7 +81,7 @@ class UserController extends BaseController
         $data = [
             'title' => 'Edit User',
             'user' => $this->userModel->find($id),
-            'roles' => ['admin', 'bendahara', 'rt'],
+            'roles' => ['admin', 'bendahara'],
             'validation' => \Config\Services::validation()
         ];
         return view('admin/user/edit', $data);
@@ -80,7 +99,7 @@ class UserController extends BaseController
         $rules = [
             'username' => $usernameRules,
             'nama' => 'required',
-            'role' => 'required|in_list[admin,bendahara,rt]'
+            'role' => 'required|in_list[admin,bendahara]'
         ];
 
         // Password is optional in update
