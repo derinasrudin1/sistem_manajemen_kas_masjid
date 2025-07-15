@@ -100,7 +100,7 @@
                 <i class="fas fa-mosque text-white-50"></i> Sistem Kas Masjid
             </a>
             <a href="<?= base_url('/auth') ?>" class="btn btn-outline-light">
-                <i class="fas fa-sign-in-alt"></i> Login Pengurus
+                <i class="fas fa-sign-in-alt"></i> Login
             </a>
         </div>
     </nav>
