@@ -119,27 +119,33 @@
         <div class="container text-center">
             <h2 class="section-title">Salurkan Infaq & Donasi Anda</h2>
             <p class="lead text-muted mb-4">Dana yang terkumpul akan dialokasikan untuk biaya operasional, pembangunan,
-                serta kegiatan sosial masjid. <br>Untuk berdonasi, silakan hubungi bendahara kami melalui WhatsApp.</p>
+                serta kegiatan sosial masjid. <br>Untuk berdonasi, silakan hubungi admin kami melalui WhatsApp.</p>
             <a href="https://wa.me/6289687598053?text=Assalamualaikum,%20saya%20ingin%20berdonasi%20untuk%20masjid."
                 class="btn btn-whatsapp" target="_blank">
-                <i class="fab fa-whatsapp"></i> Hubungi Bendahara
+                <i class="fab fa-whatsapp"></i> Hubungi Admin
             </a>
         </div>
     </section>
-
-    <!-- Masjid List Section -->
+    <!-- Masjid List Section (dengan Nama Bendahara Dinamis) -->
     <section id="masjid" class="py-5 bg-light">
         <div class="container">
             <h2 class="section-title text-center">Masjid yang Kami Kelola</h2>
+
             <div class="row">
                 <?php if (!empty($masjidList)): ?>
                     <?php foreach ($masjidList as $masjid): ?>
                         <div class="col-md-6 col-lg-4 mb-4">
                             <div class="card h-100 text-center masjid-card">
-                                <div class="card-body">
-                                    <i class="fas fa-mosque fa-3x text-primary mb-3"></i>
+                                <div class="card-body d-flex flex-column">
+                                    <div class="mb-3"><i class="fas fa-mosque fa-3x text-primary"></i></div>
                                     <h5 class="card-title fw-bold"><?= esc($masjid['nama_masjid']) ?></h5>
-                                    <p class="card-text text-muted"><?= esc($masjid['alamat']) ?></p>
+                                    <p class="card-text text-muted small flex-grow-1"><?= esc($masjid['alamat']) ?></p>
+                                    <p class="card-text text-muted small flex-grow-1">Takmir :
+                                        <?= esc($masjid['nama_takmir']) ?>
+                                    </p>
+                                    <hr>
+
+
                                 </div>
                             </div>
                         </div>

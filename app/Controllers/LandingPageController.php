@@ -11,7 +11,7 @@ class LandingPageController extends BaseController
 {
     protected $kasMasukModel;
     protected $kasKeluarModel;
-    protected $masjidModel; // Definisikan properti
+    protected $masjidModel;
     protected $db;
 
     public function __construct()
@@ -32,9 +32,9 @@ class LandingPageController extends BaseController
 
         $data = [
             'title' => 'Selamat Datang di Sistem Kas Masjid',
-            'transaksi' => $this->getMergedTransactions($idMasjid, 50), // Kirim idMasjid ke fungsi
-            'masjidList' => $this->masjidModel->findAll(), // Ambil semua data masjid untuk dropdown
-            'selectedMasjid' => $idMasjid, // Kirim ID yang dipilih untuk menandai di dropdown
+            'transaksi' => $this->getMergedTransactions($idMasjid, 50),
+            'masjidList' => $this->masjidModel->findAll(),
+            'selectedMasjid' => $idMasjid,
         ];
 
         return view('public_landing', $data);
